@@ -22,7 +22,7 @@
       <div v-else class="left">
         <span v-if="course.connect ==='teach'">教</span>
         <span v-else>协</span>
-        <span> 成员:{{ course.students }}人 </span>
+        <span> 成员:{{ course.studentCount }}人 </span>
       </div>
       <div class="right">
         <span @click="topCourse" v-if="!course.top"><img src="@/assets/img/main/top-class.svg" alt>置顶</span>
@@ -90,7 +90,7 @@ export default {
       this.$router.push({
         name: pageName,
         query: {
-          courseId:this.course.courseid,
+          courseId:this.course.courseId,
         },
         params: {
           course:this.course

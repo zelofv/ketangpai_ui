@@ -119,7 +119,7 @@ export default {
         label: '作业',
         link: '',
         section: '',
-        courseid: this.$store.state.thisCourseInfo.courseid,
+        courseId: this.$store.state.thisCourseInfo.courseId,
         start: new Date(),
         deadline: null,
         total: '0',
@@ -133,7 +133,7 @@ export default {
         label: '作业',
         link: '',
         section: '',
-        courseid: this.$store.state.thisCourseInfo.courseid,
+        courseId: this.$store.state.thisCourseInfo.courseId,
         start: new Date(),
         deadline: null,
         total: '0',
@@ -171,7 +171,7 @@ export default {
         }
         if (this.formData.total === '0') this.formData.total = '100';
       }
-      this.formData.courseid = this.$store.state.thisCourseInfo.courseid;
+      this.formData.courseId = this.$store.state.thisCourseInfo.courseId;
       if (await this.$store.dispatch('addHomework', this.formData)) {
         this.createVisible = false;
       }

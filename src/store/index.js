@@ -51,7 +51,7 @@ const actions = {
         if (!course.top) {
             return;
         }
-        let data = await cancelTopCourse(course.courseid, context.state.userInfo.uid)
+        let data = await cancelTopCourse(course.courseId, context.state.userInfo.uid)
             .then(data => {
                 if (data.status !== 200) {
                     return data;
@@ -65,7 +65,7 @@ const actions = {
         if (course.top) {
             return;
         }
-        let data = await topCourse(course.courseid, context.state.userInfo.uid)
+        let data = await topCourse(course.courseId, context.state.userInfo.uid)
             .then(data => {
                 if (data.status !== 200) {
                     return data;
@@ -270,10 +270,10 @@ const state = {
         uid: ''
     },
     thisCourseInfo: {
-        courseid: '',
+        courseId: '',
         name: '',
         admin: '',
-        adminid: '',
+        adminId: '',
         classes: '',
         semester: '',
         mode: '',
@@ -282,7 +282,7 @@ const state = {
         code: '',
         period: '',
         img: '',
-        students: '',
+        studentCount: '',
         connect: '',
     },
     classInfo: {},

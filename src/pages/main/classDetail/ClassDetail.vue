@@ -31,7 +31,7 @@
             <div class="join-code">
               <img src="@/assets/img/main/qrcode.svg" alt>
               <span>加课码:{{ $store.state.thisCourseInfo.code }}</span>
-              <span>已有{{ $store.state.thisCourseInfo.students }}人加入</span>
+              <span>已有{{ $store.state.thisCourseInfo.studentCount }}人加入</span>
             </div>
             <el-button v-if="$store.state.thisCourseInfo && $store.state.thisCourseInfo.connect === 'study'"
                        disabled round icon="el-icon-video-play">暂无课堂

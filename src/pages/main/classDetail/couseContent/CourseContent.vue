@@ -29,7 +29,7 @@ export default {
   methods: {
     handleClick(tab, event) {
       if (tab.name === '4') {
-        this.$store.dispatch('getHomeworkList', this.$store.state.thisCourseInfo.courseid);
+        this.$store.dispatch('getHomeworkList', this.$store.state.thisCourseInfo.courseId);
       }
     }
   }

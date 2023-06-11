@@ -162,7 +162,7 @@ export default {
       let course = {
         name: this.courseForm.name,
         admin: this.$store.state.userInfo.name,
-        adminid: this.$store.state.userInfo.uid,
+        adminId: this.$store.state.userInfo.uid,
         classes: this.courseForm.classes,
         semester: this.courseForm.year + ' ' + this.courseForm.term,
         img: 'https://assets.ketangpai.com/theme/min/' + Math.floor(Math.random() * 33 + 1) + '.jpg'
