@@ -1,12 +1,23 @@
 <template>
-  <el-form  :model="loginPhoneForm" :rules="loginPhoneRules" ref="ruleForm">
-    <el-form-item prop="phone"><el-input v-model="loginPhoneForm.phone" type="text" placeholder="请输入手机号" autocomplete="on" clearable></el-input></el-form-item>
+  <el-form :model="loginPhoneForm" :rules="loginPhoneRules" ref="ruleForm">
+    <el-form-item prop="phone">
+      <el-input v-model="loginPhoneForm.phone" type="text"
+                placeholder="请输入手机号" autocomplete="on"
+                clearable></el-input>
+    </el-form-item>
 
-    <el-form-item><el-input class="verification" v-model="loginPhoneForm.verificationCode" type="text" placeholder="请输入验证码" autocomplete="on" clearable></el-input>
+    <el-form-item>
+      <el-input class="verification"
+                v-model="loginPhoneForm.verificationCode"
+                type="text" placeholder="请输入验证码"
+                autocomplete="on"
+                @keyup.enter.native="$emit('login')" clearable></el-input>
       <el-button type="primary">发送验证码</el-button>
     </el-form-item>
 
-    <el-form-item><el-checkbox class="auto-login-button" v-model="autoLogin">下次自动登录</el-checkbox><span class="forget">忘记密码？</span></el-form-item>
+    <el-form-item>
+      <el-checkbox class="auto-login-button" v-model="autoLogin">下次自动登录</el-checkbox>
+      <span class="forget">忘记密码？</span></el-form-item>
   </el-form>
 </template>
 
@@ -26,6 +37,7 @@ export default {
   user-select: none;
   cursor: pointer;
 }
+
 .verification {
   width: 65%;
   margin-right: 15px;
@@ -35,6 +47,7 @@ export default {
   position: absolute;
   left: 0;
 }
+
 .el-button {
   width: 32%;
   padding: 8px 15px;

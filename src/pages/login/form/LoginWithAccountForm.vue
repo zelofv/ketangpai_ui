@@ -1,10 +1,20 @@
 <template>
-  <el-form  :model="loginForm" :rules="loginRules" ref="ruleForm">
-    <el-form-item prop="account"><el-input v-model="loginForm.account" type="text" placeholder="请输入邮箱/手机号/账号" autocomplete="on" clearable></el-input></el-form-item>
+  <el-form :model="loginForm" :rules="loginRules" ref="ruleForm">
+    <el-form-item prop="account">
+      <el-input v-model="loginForm.account" type="text"
+                placeholder="请输入邮箱/手机号/账号" autocomplete="on"
+                clearable></el-input>
+    </el-form-item>
 
-    <el-form-item prop="password"><el-input v-model="loginForm.password" type="password" placeholder="请输入密码" autocomplete="on" show-password clearable></el-input></el-form-item>
+    <el-form-item prop="password">
+      <el-input v-model="loginForm.password" type="password"
+                placeholder="请输入密码" autocomplete="on" show-password
+                @keyup.enter.native="$emit('login')" clearable></el-input>
+    </el-form-item>
 
-    <el-form-item><el-checkbox class="auto-login-button" v-model="autoLogin">下次自动登录</el-checkbox><span class="forget">忘记密码？</span></el-form-item>
+    <el-form-item>
+      <el-checkbox class="auto-login-button" v-model="autoLogin">下次自动登录</el-checkbox>
+      <span class="forget">忘记密码？</span></el-form-item>
   </el-form>
 </template>
 

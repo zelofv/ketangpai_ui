@@ -4,12 +4,12 @@
     <MainHeader/>
     <div class="class-body">
       <div class="join-button">
-        <el-button class="join-class" v-if="$store.state.userInfo.identity === 'student'" type="primary"
+        <el-button class="join-class" v-if="userInfo.identity === 'student'" type="primary"
                    @click="joinCourseDialogVisible=true">
           <i class="el-icon-plus"></i>加入课程
         </el-button>
         <el-dropdown trigger="click" placement="bottom">
-          <el-button class="join-class" v-if="$store.state.userInfo.identity === 'teacher'" type="primary">
+          <el-button class="join-class" v-if="userInfo.identity === 'teacher'" type="primary">
             <i class="el-icon-plus"></i>创建/加入课程
           </el-button>
 
@@ -20,14 +20,14 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <top-class v-if="$store.state.topClasses.length!==0"/>
+      <top-class v-if="topClasses.length!==0"/>
       <div class="class-selection-menu">
         <div class="left">
-          <el-tabs v-if="$store.state.userInfo.identity==='student'" v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-if="userInfo.identity==='student'" v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="我学的" name="study"></el-tab-pane>
             <el-tab-pane label="我协助的" name="assist"></el-tab-pane>
           </el-tabs>
-          <el-tabs v-if="$store.state.userInfo.identity==='teacher'" v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-if="userInfo.identity==='teacher'" v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="我教的" name="teach"></el-tab-pane>
             <el-tab-pane label="我协助的" name="assist"></el-tab-pane>
             <el-tab-pane label="我学的" name="study"></el-tab-pane>
@@ -41,13 +41,13 @@
 
 
       <div>
-        <div v-show="$store.state.semesterList.length===0" class="none">
+        <div v-show="semesterList.length===0" class="none">
           <div class="img-box"><img src="@/assets/img/main/bg-none.png" alt></div>
           暂无课程
         </div>
 
-        <course-list-every-term v-show="$store.state.semesterList.length!==0"
-                                v-for="(semester, index) in $store.state.semesterList"
+        <course-list-every-term v-show="semesterList.length!==0"
+                                v-for="(semester, index) in semesterList"
                                 :connect="activeName"
                                 :semester="semester" :index="index"
                                 :key="Math.random()*1000000"/>
@@ -138,7 +138,10 @@ export default {
         classes: '',
         year: '',
         term: '',
-      }
+      },
+      topClasses: this.$store.state.topClasses ? this.$store.state.topClasses : [],
+      userInfo: this.$store.state.userInfo ? this.$store.state.userInfo : {},
+      semesterList: this.$store.state.semesterList ? this.$store.state.semesterList : [],
     }
   },
   methods: {
@@ -146,7 +149,7 @@ export default {
       if (this.oldActiveName === this.activeName) return;
       this.oldActiveName = tab.name;
       let data = {
-        uid: this.$store.state.userInfo.uid,
+        uid: this.userInfo.uid,
         connect: tab.name,
       }
       await this.$store.dispatch('getSemesterList', data);
@@ -161,8 +164,8 @@ export default {
           || this.courseForm.name === null) return;
       let course = {
         name: this.courseForm.name,
-        admin: this.$store.state.userInfo.name,
-        adminId: this.$store.state.userInfo.uid,
+        admin: this.userInfo.name,
+        adminId: this.userInfo.uid,
         classes: this.courseForm.classes,
         semester: this.courseForm.year + ' ' + this.courseForm.term,
         img: 'https://assets.ketangpai.com/theme/min/' + Math.floor(Math.random() * 33 + 1) + '.jpg'
@@ -185,19 +188,19 @@ export default {
       }
       this.$store.dispatch('joinCourse', this.joinClassCode)
           .then(data => {
-        this.$router.push({
-          name: 'classDetail',
-          query: {
-            courseId: data,
-          }
-        })
-      })
+            this.$router.push({
+              name: 'classDetail',
+              query: {
+                courseId: data,
+              }
+            })
+          })
     },
     async loading() {
       if (!localStorage.getItem('ktp_token'))
         await this.$router.replace('login');
       // await this.$store.dispatch("getUserInfo").then(() => {
-      this.activeName = this.$store.state.userInfo.identity === 'student' ? 'study' : 'teach';
+      this.activeName = this.userInfo.identity === 'student' ? 'study' : 'teach';
       this.oldActiveName = this.activeName;
       // }).then(() => {
       this.$store.dispatch('getTopCourses');
@@ -209,7 +212,7 @@ export default {
     this.loading()
   },
   mounted() {
-    if (this.$store.state.userInfo.avatar === '') {
+    if (this.userInfo.avatar === '') {
       this.$forceUpdate();
     }
   }

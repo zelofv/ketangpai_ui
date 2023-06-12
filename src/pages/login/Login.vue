@@ -10,10 +10,12 @@
             <el-tab-pane label="手机短信登录" name="phone"></el-tab-pane>
             <el-tab-pane label="微信登录" name="wechat"></el-tab-pane>
           </el-tabs>
-          <login-with-account-form v-show="activeName==='account'" :login-form="loginForm" :login-rules="loginRules"
-                                   :auto-login="autoLogin"/>
+          <login-with-account-form v-show="activeName==='account'" :login-form="loginForm"
+                                   :login-rules="loginRules" :auto-login="autoLogin"
+                                   @login="login"/>
           <login-with-phone v-show="activeName==='phone'" :login-phone-form="loginPhoneForm"
-                            :login-phone-rules="loginPhoneRules" :auto-login="autoLogin"/>
+                            :login-phone-rules="loginPhoneRules" :auto-login="autoLogin"
+                            @login="login"/>
           <login-with-we-chat v-if="activeName==='wechat'" :auto-login="autoLogin"/>
           <div v-show="activeName!=='wechat'" class="commit-button">
             <el-button type="primary" @click="login">登录</el-button>
