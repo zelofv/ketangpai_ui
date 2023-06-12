@@ -39,7 +39,7 @@ import {mixin} from "@/mixins";
 import LoginWithAccountForm from "@/pages/login/form/LoginWithAccountForm";
 import LoginWithPhone from "@/pages/login/form/LoginWithPhone";
 import LoginWithWeChat from "@/pages/login/form/LoginWithWeChat";
-import axios from "axios";
+import md5 from "js-md5";
 import {login} from "@/api/loginApi";
 
 export default {
@@ -78,7 +78,7 @@ export default {
     login() {
       const loginUser = {
         account: this.loginForm.account,
-        password: this.loginForm.password
+        password: md5(this.loginForm.password + "ktp_salt")
       }
       if (loginUser.account === "" || loginUser.password === "") return;
       login(loginUser)
