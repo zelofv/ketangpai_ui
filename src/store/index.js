@@ -9,7 +9,7 @@ import {
     getTopCourses, joinCourse,
     topCourse
 } from "@/api/courseApi";
-import {Message} from "element-ui";
+import {Msg} from "@/util/message";
 import {addHomework, commitHomework, getHomeworkInfo, getHomeworkList} from "@/api/homeworkApi";
 
 Vue.use(Vuex)
@@ -80,11 +80,11 @@ const actions = {
             .then(res => {
                 if (res) {
                     if (res.status === 200) {
-                        context.state.$msg.success(res.message);
+                        Msg.success(res.message);
                     } else if (res.status === 410) {
-                        context.state.$msg(res.message);
+                        Msg.warning(res.message);
                     } else {
-                        context.state.$msg.error(res.message);
+                        Msg.error(res.message);
                     }
                     return res.data;
                 }
@@ -110,7 +110,7 @@ const actions = {
         getSemesterList(data.uid, data.connect)
             .then(res => {
                 if (res && res.status !== 200) {
-                    context.state.$msg.error(res.message);
+                    Msg.error(res.message);
                 } else {
                     return res.data;
                 }
@@ -123,7 +123,7 @@ const actions = {
         return getCourseListBySemester(data.uid, data.connect, data.semester)
             .then(res => {
                 if (res && res.status !== 200) {
-                    context.state.$msg.error(res.message);
+                    Msg.error(res.message);
                 } else {
                     return res.data;
                 }
@@ -133,7 +133,7 @@ const actions = {
         getAllCourses(context.state.userInfo.uid)
             .then(res => {
                 if (res && res.status !== 200) {
-                    context.state.$msg.error(res.message);
+                    Msg.error(res.message);
                 } else {
                     return res.data;
                 }
@@ -155,7 +155,7 @@ const actions = {
             return addHomework(homework)
                 .then(res => {
                     if (res && res.status !== 200) {
-                        context.state.$msg.error(res.message);
+                        Msg.error(res.message);
                     } else {
                         return true;
                     }
@@ -173,7 +173,7 @@ const actions = {
         return commitHomework(homework)
             .then(res => {
                 if (res && res.status !== 200) {
-                    context.state.$msg.error(res.message);
+                    Msg.error(res.message);
                 } else {
                     return true;
                 }
@@ -183,7 +183,7 @@ const actions = {
         getHomeworkList(courseId, context.state.userInfo.uid, context.state.thisCourseInfo.connect)
             .then(res => {
                 if (res && res.status !== 200) {
-                    context.state.$msg.error(res.message);
+                    Msg.error(res.message);
                 } else {
                     return res.data;
                 }
@@ -195,7 +195,7 @@ const actions = {
         getHomeworkInfo(params.uid, params.hid)
             .then(res => {
                 if (res && res.status !== 200) {
-                    context.state.$msg.error(res.message);
+                    Msg.error(res.message);
                 } else {
                     return res.data;
                 }
@@ -288,7 +288,6 @@ const state = {
     classInfo: {},
     semesterList: [],
     topClasses: [],
-    $msg: Message,
     littleAssistList: [],
     littleTeachList: [],
     littleStudyList: [],

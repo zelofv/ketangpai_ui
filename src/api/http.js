@@ -39,8 +39,8 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
     response => {
-        if (response.status) {
-        // if (response.status === 200) {
+        if (response.data) {
+            // if (response.status === 200) {
             switch (response.data.status) {
                 case 200:
                     // Msg.success(response.data.message);
@@ -79,15 +79,28 @@ axios.interceptors.response.use(
     },
     // 服务器状态码不是200的情况
     error => {
-        if (error.response.status) {
+        let msg = '';
+        // console.error(error)
+        if (error.response) {
             switch (error.response.status) {
-                // 401: 未登录
-                // 未登录则跳转登录页面，并携带当前页面的路径
-                // 在登录成功后返回当前页面，这一步需要在登录页操作。
+                case 400:
+                    msg = error.response.data.message;
+                    Msg.error(msg);
+                    break;
+                case 500:
+                    msg = error.response.data.message;
+                    Msg.error(msg);
+                    break;
+                case 590:
+                    break;
                 case 401:
-                    this.$router.replace({
-                        name: '/login',
-                    });
+                    msg = "非法的服务器请求被拒绝";
+                    this.$store.state.login = false;
+                    sessionStorage.clear();
+                    router.replace({
+                        name: 'login',
+                    }).catch(alert);
+                    Msg.error(msg);
                     break;
                 // 403 token过期
                 // 登录过期对用户进行提示
@@ -95,33 +108,28 @@ axios.interceptors.response.use(
                 // 跳转登录页面
                 case 403:
                     // 清除token
-                    localStorage.removeItem('token');
+                    sessionStorage.clear();
+                    sessionStorage.removeItem('ktp_token');
+                    this.$store.state.login = false;
                     // store.commit('loginSuccess', null);
                     // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
                     setTimeout(() => {
-                        this.$router.replace({
-                            path: '/login'
-                        });
+                        router.replace({
+                            path: 'login'
+                        }).catch(alert);
                     }, 1000);
                     break;
-                // 404请求不存在
-                // case 404:
-                //     Toast({
-                //         message: '网络请求不存在',
-                //         duration: 1500,
-                //         forbidClick: true
-                //     });
-                //     break;
-                // 其他错误，直接抛出错误提示
                 default:
-                    // Toast({
-                    //     message: error.response.data.message,
-                    //     duration: 1500,
-                    //     forbidClick: true
-                    // });
+                    msg = '与服务器通讯出错( code: ' + error.response.status + ' )';
+                    Msg.error(msg);
             }
-            return Promise.reject(error.response);
         }
+        // else {
+        //     msg = '与服务器通讯出错（原因未知）'
+        //     Msg.error(msg);
+        // }
+
+        return Promise.reject(error.response || '与服务器通讯出错（原因未知）');
     }
 );
 /**
@@ -129,8 +137,8 @@ axios.interceptors.response.use(
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get(url, params){
-    return new Promise((resolve, reject) =>{
+export function get(url, params) {
+    return new Promise((resolve, reject) => {
         axios.get(url, {
             params: params
         })
