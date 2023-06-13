@@ -64,6 +64,7 @@ import IdentityCard from "@/pages/register/form/IdentityCard";
 import {mixin} from "@/mixins";
 import {register} from "@/api/loginApi";
 import {Msg} from "@/util/message";
+import md5 from "js-md5";
 
 export default {
   name: "Register",
@@ -131,7 +132,7 @@ export default {
         uid: 'ktp',
         email: '',
         phone: '',
-        password: this.registerForm.password,
+        password: md5(this.registerForm.password+ "ktp_salt"),
         name: this.registerForm.name,
         school: this.registerForm.school,
         identity: this.registerForm.identity,
