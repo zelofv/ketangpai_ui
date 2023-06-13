@@ -21,7 +21,7 @@ axios.defaults.baseURL='http://localhost:8082/';
 // axios.defaults.timeout = 10000;
 
 // post请求头
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 // 请求拦截器
 axios.interceptors.request.use(
@@ -43,7 +43,7 @@ axios.interceptors.response.use(
         // if (response.status === 200) {
             switch (response.data.status) {
                 case 200:
-                    Msg.success(response.data.message);
+                    // Msg.success(response.data.message);
                     break;
                 // 401: 未登录
                 // 未登录则跳转登录页面，并携带当前页面的路径
