@@ -104,6 +104,7 @@
 import AssignmentCard from "@/components/main/AssignmentCard";
 import elDragDialog from "@/directive/el-dragDialog";
 import ImcoderTinymce from "@/components/ImcoderTinymce";
+import {Msg} from "@/util/message";
 
 export default {
   name: "Assignment",
@@ -155,7 +156,7 @@ export default {
     },
     async commitHomework() {
       if (this.formData.title === '') {
-        this.$message.error('请输入作业名称');
+        Msg.error('请输入作业名称');
         return;
       }
       if (this.formData.published === false) {
@@ -165,7 +166,7 @@ export default {
         if (this.formData.deadline === null) return;
         if (typeof this.formData.start !== "string") {
           if (this.formData.start.getTime() >= this.formData.deadline.getTime()) {
-            this.$message.error('作业结束时间不能小于当前时间');
+            Msg.error('作业结束时间不能小于当前时间');
             return;
           }
         }

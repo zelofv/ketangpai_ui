@@ -62,6 +62,8 @@
 
 <script>
 
+import {Msg} from "@/util/message";
+
 export default {
   name: "ClassCard",
   props: ['course'],
@@ -74,7 +76,7 @@ export default {
       let data = await this.$store.dispatch('cancelTopCourse', this.course);
       if (data) {
         if (data.status !== 200) {
-          this.$message.error(data.message);
+          Msg.error(data.message);
         }
       }
     },
@@ -82,7 +84,7 @@ export default {
       let data = await this.$store.dispatch('topCourse', this.course);
       if (data) {
         if (data.status !== 200) {
-          this.$message.error(data.message);
+          Msg.error(data.message);
         }
       }
     },

@@ -41,6 +41,7 @@ import LoginWithPhone from "@/pages/login/form/LoginWithPhone";
 import LoginWithWeChat from "@/pages/login/form/LoginWithWeChat";
 import md5 from "js-md5";
 import {login} from "@/api/loginApi";
+import {Msg} from "@/util/message";
 
 export default {
   name: "Login",
@@ -84,12 +85,12 @@ export default {
       login(loginUser)
           .then(res => {
             if (res.status === 200) {
-              localStorage.setItem('ktp_token', res.data)
+              sessionStorage.setItem('ktp_token', res.data)
               this.$store.state.login = true;
-              this.$message.success(res.message);
+              Msg.success(res.message);
               this.$store.dispatch('replace',{this:this, name:'main'});
             } else {
-              this.$message.warning(res.message)
+              Msg.warning(res.message)
             }
           }).catch(alert);
     }

@@ -49,7 +49,7 @@ export default {
     handleClick(tab, event) {
     },
     logOff() {
-      localStorage.removeItem("ktp_token");
+      sessionStorage.removeItem("ktp_token");
       this.$store.commit('replace', {this:this,name:'login'});
     }
   }

@@ -150,6 +150,7 @@
 <script>
 import ImcoderTinymce from "@/components/ImcoderTinymce";
 import elDragDialog from "@/directive/el-dragDialog";
+import {Msg} from "@/util/message";
 
 export default {
   name: "AssignmentCard",
@@ -193,16 +194,16 @@ export default {
     ,
     commit() {
       if (this.homework.title === '') {
-        this.$message.error('请输入作业名称');
+        Msg.error('请输入作业名称');
         return;
       }
 
       if (this.homework.deadline === null) {
-        this.$message.error(('请选择截止时间'));
+        Msg.error(('请选择截止时间'));
         return;
       }
       if (this.homework.start >= this.homework.deadline) {
-        this.$message.error('作业结束时间不能小于当前时间');
+        Msg.error('作业结束时间不能小于当前时间');
         return;
       }
       if (this.homework.total === '0') this.homework.total = '100';

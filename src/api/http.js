@@ -3,6 +3,7 @@
  */
 import axios from 'axios';
 import router from "@/router";
+import {Msg} from "@/util/message";
 // import { Toast } from 'vant';
 // import store from '../store/index'
 
@@ -27,7 +28,7 @@ axios.interceptors.request.use(
     config => {
         // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加了
         // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
-        const token = localStorage.getItem('ktp_token');
+        const token = sessionStorage.getItem('ktp_token');
         if (token) config.headers.Authorization = token;
         return config;
     },
@@ -38,8 +39,12 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
     response => {
-        if (response.status === 200) {
+        if (response.status) {
+        // if (response.status === 200) {
             switch (response.data.status) {
+                case 200:
+                    Msg.success(response.data.message);
+                    break;
                 // 401: 未登录
                 // 未登录则跳转登录页面，并携带当前页面的路径
                 // 在登录成功后返回当前页面，这一步需要在登录页操作。
@@ -56,7 +61,7 @@ axios.interceptors.response.use(
                 case 403:
                     // 清除token
                     sessionStorage.clear();
-                    localStorage.removeItem('ktp_token');
+                    sessionStorage.removeItem('ktp_token');
                     this.$store.state.login = false;
                     // store.commit('loginSuccess', null);
                     // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面

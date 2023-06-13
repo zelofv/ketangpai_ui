@@ -119,6 +119,7 @@ import RightMenu from "@/pages/main/RightMenu";
 import CourseListEveryTerm from "@/components/main/CourseListEveryTerm";
 import elDragDialog from "@/directive/el-dragDialog";
 import {addCourse} from "@/api/courseApi";
+import {Msg} from "@/util/message";
 
 export default {
   name: "Main",
@@ -174,16 +175,16 @@ export default {
           // .then(res => {return res.data;})
           .then(data => {
             if (data.status === 200) {
-              this.$message.success(data.message);
+              Msg.success(data.message);
               this.createCourseDialogVisible = false;
             } else {
-              this.$message.error(data.message);
+              Msg.error(data.message);
             }
           });
     },
     commitJoin() {
       if (this.joinClassCode === '') {
-        this.$message.warning('请输入加课码');
+        Msg.warning('请输入加课码');
         return;
       }
       this.$store.dispatch('joinCourse', this.joinClassCode)
@@ -197,7 +198,7 @@ export default {
           })
     },
     async loading() {
-      if (!localStorage.getItem('ktp_token'))
+      if (!sessionStorage.getItem('ktp_token'))
         await this.$router.replace('login');
       // await this.$store.dispatch("getUserInfo").then(() => {
       this.activeName = this.userInfo.identity === 'student' ? 'study' : 'teach';

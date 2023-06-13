@@ -62,8 +62,8 @@
 <script>
 import IdentityCard from "@/pages/register/form/IdentityCard";
 import {mixin} from "@/mixins";
-import axios from "axios";
 import {register} from "@/api/loginApi";
+import {Msg} from "@/util/message";
 
 export default {
   name: "Register",
@@ -232,7 +232,7 @@ export default {
           pen.stroke();
         }
       } else {
-        this.$message.error('不支持验证码格式，请升级或更换浏览器重试');
+        Msg.error('不支持验证码格式，请升级或更换浏览器重试');
       }
     },
     // 点击时刷新二维码

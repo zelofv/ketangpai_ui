@@ -51,7 +51,7 @@ export default {
     }
   },
   mounted() {
-    if (localStorage.getItem('ktp_token'))
+    if (sessionStorage.getItem('ktp_token'))
       this.$store.dispatch("getUserInfo");
   }
 }

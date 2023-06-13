@@ -252,7 +252,7 @@ export default {
       console.log(`每页 ${val} 条`);
     },
     async loading() {
-      if (!localStorage.getItem('ktp_token'))
+      if (!sessionStorage.getItem('ktp_token'))
         await this.$router.replace('login');
       await this.$store.dispatch("getUserInfo");
       if (!this.$route.params.homework) {

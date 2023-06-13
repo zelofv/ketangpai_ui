@@ -147,7 +147,7 @@ export default {
       }
     },
     async loading() {
-      if (!localStorage.getItem('ktp_token'))
+      if (!sessionStorage.getItem('ktp_token'))
         await this.$router.replace('login');
       this.beforeGet();
       await this.$store.dispatch("getUserInfo")

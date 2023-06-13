@@ -61,7 +61,7 @@ const router = new Router({
 //
 // router.beforeEach((to, from, next) => {
 //     if (to.name !== 'login' || to.name !== 'register') {
-//         if (localStorage.getItem('ktp_token')) {
+//         if (sessionStorage.getItem('ktp_token')) {
 //             next();
 //         } else {
 //             router.replace({name: 'login'})
