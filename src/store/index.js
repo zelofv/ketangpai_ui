@@ -15,17 +15,17 @@ import {addHomework, commitHomework, getHomeworkInfo, getHomeworkList} from "@/a
 Vue.use(Vuex)
 
 const actions = {
-    getUserInfo(context) {
-        let user = sessionStorage.getItem('user');
-        if (user) {
-            state.userInfo = JSON.parse(user)
-            return;
-        }
-        getUser()
-            .then(res => {
-                context.commit('getUserInfo', res.data);
-            })
-    },
+     async getUserInfo(context) {
+         let user = JSON.parse(sessionStorage.getItem('user'));
+         if (user) {
+             state.userInfo = user;
+             return;
+         }
+         await getUser()
+             .then(res => {
+                 context.commit('getUserInfo', res.data);
+             })
+     },
     getCourseInfo(context, courseId) {
         getCourseByCourseId(courseId)
             .then(res => {
