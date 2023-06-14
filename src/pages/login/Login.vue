@@ -77,6 +77,7 @@ export default {
   },
   methods: {
     login() {
+      sessionStorage.clear();
       const loginUser = {
         account: this.loginForm.account,
         password: md5(this.loginForm.password + "ktp_salt")
@@ -88,11 +89,13 @@ export default {
               sessionStorage.setItem('ktp_token', res.data)
               this.$store.state.login = true;
               Msg.success(res.message);
-              this.$store.dispatch('replace',{this:this, name:'main'});
+              this.$store.dispatch('replace', {this: this, name: 'main'});
             } else {
               Msg.warning(res.message)
             }
-          }).catch(alert);
+          }).then(async () => {
+        await this.$store.dispatch("getUserInfo");
+      }).catch(alert);
     }
   }
 }

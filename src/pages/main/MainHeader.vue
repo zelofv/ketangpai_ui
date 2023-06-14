@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .main-header .main-header-content {
-  z-index: 2;
+  z-index: 10;
 }
 
 .main-header {

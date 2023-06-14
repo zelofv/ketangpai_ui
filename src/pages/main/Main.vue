@@ -20,7 +20,9 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <top-class v-if="topClasses.length!==0"/>
+
+      <top-class v-if="topClasses.length!==0" :top-classes="topClasses"/>
+
       <div class="class-selection-menu">
         <div class="left">
           <el-tabs v-if="userInfo.identity==='student'" v-model="activeName" @tab-click="handleClick">
@@ -118,7 +120,7 @@ import TopClass from "@/pages/main/TopClass";
 import RightMenu from "@/pages/main/RightMenu";
 import CourseListEveryTerm from "@/components/main/CourseListEveryTerm";
 import elDragDialog from "@/directive/el-dragDialog";
-import {addCourse} from "@/api/courseApi";
+import {addCourse, getSemesterList, getTopCourses} from "@/api/courseApi";
 import {Msg} from "@/util/message";
 
 export default {
@@ -153,7 +155,7 @@ export default {
         uid: this.userInfo.uid,
         connect: tab.name,
       }
-      await this.$store.dispatch('getSemesterList', data);
+      this.getSemesterList(data);
     },
     handleClose(done) {
       done();
@@ -197,6 +199,41 @@ export default {
             })
           })
     },
+    getTopCourses() {
+      getTopCourses(this.userInfo.uid).then(res => {
+        this.topClasses = res.data;
+      }).catch(err => Msg.error(err.message));
+    },
+    processData(data) {
+      if (!data) {
+        const data = {
+          uid: this.$store.state.userInfo.uid,
+          connect: '',
+        }
+        if (this.$store.state.userInfo.identity === 'teacher') {
+          data.connect = 'teach';
+        } else {
+          data.connect = 'study';
+        }
+      }
+      return data;
+    },
+    getSemesterList(data) {
+      // this.buttonRequestProgressStart("正在加载,时间可能较长,请耐心等待...");
+      data = this.processData(data);
+      getSemesterList(data.uid, data.connect)
+          .then(res => {
+            // this.buttonRequestProgressClose();
+            if (res && res.status !== 200) {
+              Msg.error(res.message);
+            } else {
+              this.semesterList = res.data;
+            }
+          }).catch(err => {
+        // this.buttonRequestProgressClose();
+        Msg.error(err.message)
+      });
+    },
     async loading() {
       if (!sessionStorage.getItem('ktp_token'))
         await this.$router.replace('login');
@@ -204,18 +241,18 @@ export default {
       this.activeName = this.userInfo.identity === 'student' ? 'study' : 'teach';
       this.oldActiveName = this.activeName;
       // }).then(() => {
-      this.$store.dispatch('getTopCourses');
-      this.$store.dispatch('getSemesterList');
+      // this.$store.dispatch('getTopCourses');
+      this.getTopCourses();
+      this.getSemesterList({uid: this.$store.state.userInfo.uid});
+      // this.$store.dispatch('getSemesterList');
       // })
     }
   },
   created() {
     this.loading()
-  },
+  }
+  ,
   mounted() {
-    if (this.userInfo.avatar === '') {
-      this.$forceUpdate();
-    }
   }
 }
 </script>

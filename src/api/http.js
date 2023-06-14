@@ -93,6 +93,10 @@ axios.interceptors.response.use(
                     break;
                 case 590:
                     break;
+                case 4011:
+                    msg = "登录失败";
+                    Msg.error(msg);
+                    break;
                 case 401:
                     msg = "非法的服务器请求被拒绝";
                     this.$store.state.login = false;
@@ -109,7 +113,6 @@ axios.interceptors.response.use(
                 case 403:
                     // 清除token
                     sessionStorage.clear();
-                    sessionStorage.removeItem('ktp_token');
                     this.$store.state.login = false;
                     // store.commit('loginSuccess', null);
                     // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面

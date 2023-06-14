@@ -90,35 +90,6 @@ const actions = {
                 }
             })
     },
-    async getSemesterList(context, data) {
-        if (!data) {
-            const data = {
-                uid: context.state.userInfo.uid,
-                connect: '',
-            }
-            if (context.state.userInfo.identity === 'teacher') {
-                data.connect = 'teach';
-            } else {
-                data.connect = 'study';
-            }
-            await context.dispatch('getSemesterListS', data)
-        } else {
-            await context.dispatch('getSemesterListS', data)
-        }
-    },
-    getSemesterListS(context, data) {
-        getSemesterList(data.uid, data.connect)
-            .then(res => {
-                if (res && res.status !== 200) {
-                    Msg.error(res.message);
-                } else {
-                    return res.data;
-                }
-            })
-            .then(data => {
-                context.commit('getSemesterList', data);
-            });
-    },
     getCoursesBySemester(context, data) {
         return getCourseListBySemester(data.uid, data.connect, data.semester)
             .then(res => {
@@ -215,9 +186,6 @@ const mutations = {
     },
     getTopCourses(state, data) {
         state.topClasses = data;
-    },
-    getSemesterList(state, data) {
-        state.semesterList = data;
     },
     getAllCourses(state, data) {
         state.littleTeachList = [];

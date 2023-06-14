@@ -50,6 +50,7 @@ export default {
     },
     logOff() {
       sessionStorage.removeItem("ktp_token");
+      sessionStorage.removeItem("user");
       this.$store.commit('replace', {this:this,name:'login'});
     }
   }

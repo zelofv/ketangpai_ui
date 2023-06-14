@@ -5,7 +5,7 @@
 
     </div>
 
-    <ClassCardBox :courses="$store.state.topClasses" style="max-height: 350px;overflow-y: scroll;"/>
+    <ClassCardBox :courses="topCourses" style="max-height: 350px;overflow-y: scroll;"/>
 
   </div>
 </template>
@@ -17,6 +17,7 @@ import elDragDialog from "@/directive/el-dragDialog";
 export default {
   name: "TopClass",
   components: {ClassCardBox},
+  props: ["topClasses"],
   directives: {
     elDragDialog,
   },
@@ -27,6 +28,7 @@ export default {
       createCourseDialogVisible: false,
       joinCourseDialogVisible: false,
       joinClassCode: '',
+      topCourses: this.$props.topClasses,
       rules: {
         code: [
           {required: true, message: '必填项', trigger: 'blur'},
